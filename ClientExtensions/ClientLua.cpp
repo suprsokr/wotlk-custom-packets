@@ -1,7 +1,6 @@
 #include "ClientLua.h"
 #include "Logger.h"
 #include "ClientDetours.h"
-#include "SharedDefines.h"
 #include "FSRoot.h"
 
 #include <vector>

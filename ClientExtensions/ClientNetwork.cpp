@@ -354,9 +354,10 @@ void ClientNetwork::initialize()
             }
             default: {
                 LOG_ERROR << "Received invalid LuaNetworkOpcode: " << int(opcode);
-                break;
+                return 0;
             }
         }
+        return 0;
     }, __FILE__, __LINE__);
 }
 
