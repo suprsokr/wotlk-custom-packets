@@ -2,7 +2,11 @@
 
 ClientExtensions.dll for WoW 3.3.5a (build 12340) - enables custom packet communication between client addons and TrinityCore server scripts.
 
-Based on [TSWoW client-extensions](https://github.com/tswow/tswow/tree/master/misc/client-extensions) (MIT License).
+All credits to [TSWoW client-extensions](https://github.com/tswow/tswow/tree/master/misc/client-extensions) (MIT License).
+
+## Why?
+
+We pair down client-extensions to just the custom packets feature and modify the build process slightly to make the resulting .dll more compatible across operating systems.
 
 ## Features
 
@@ -16,12 +20,11 @@ Download the latest `ClientExtensions.dll` from the [Releases](../../releases) p
 
 ## Installation
 
-1. Download `ClientExtensions.dll` from Releases
-2. Place it in your WoW 3.3.5a folder (next to `WoW.exe`)
-3. Patch your WoW.exe using [Thorium](https://github.com/your/thorium):
-   ```bash
-   thorium patch
-   ```
+Place ClientExtensions.dll from Releases next to your 3.3.5 Wow.exe
+
+## Usage
+
+Expected to be used in a [Thorium](https://github.com/suprsokr/thorium ) or [TSWoW](https://github.com/tswow/tswow) project.
 
 ## Building from Source
 
@@ -50,30 +53,6 @@ cmake --build build --config Release
 | `LOG_LEVEL` | DEBUG | Logging level (DEBUG/INFO/WARN/ERROR/NONE) |
 | `LUA_LOGGING` | ON | Enable Lua logging functions |
 | `CLIENT_PATH` | "" | Auto-copy DLL to this path after build |
-
-## Usage
-
-### Client-Side (Lua Addon)
-
-```lua
--- Requires CustomPackets addon
--- Send packet to server
-local packet = CreateCustomPacket(1001, 0)
-packet:WriteUInt32(12345)
-packet:WriteString("Hello Server")
-packet:Send()
-
--- Receive packet from server
-OnCustomPacket(1002, function(reader)
-    local value = reader:ReadUInt32(0)
-    local message = reader:ReadString("")
-    print("Received:", value, message)
-end)
-```
-
-### Server-Side (TrinityCore C++)
-
-See [Thorium custom-packets documentation](https://github.com/your/thorium/blob/main/docs/custom-packets.md).
 
 ## License
 
