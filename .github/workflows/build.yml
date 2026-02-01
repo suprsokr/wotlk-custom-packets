@@ -1,0 +1,64 @@
+name: Build ClientExtensions.dll
+
+on:
+  push:
+    branches: [main, master]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      
+      - name: Configure CMake (Release)
+        run: |
+          cmake -B build -G "Visual Studio 17 2022" -A Win32 -DCMAKE_BUILD_TYPE=Release -DLOG_LEVEL=WARN
+      
+      - name: Build Release
+        run: |
+          cmake --build build --config Release --parallel
+      
+      - name: Verify DLL has no debug dependencies
+        run: |
+          dumpbin /dependents build\ClientExtensions\Release\ClientExtensions.dll
+        shell: cmd
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClientExtensions-Release
+          path: build/ClientExtensions/Release/ClientExtensions.dll
+      
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/ClientExtensions/Release/ClientExtensions.dll
+          generate_release_notes: true
+          body: |
+            ## ClientExtensions.dll for WoW 3.3.5a
+            
+            This is a Release build with static runtime linking - no additional DLL dependencies required.
+            
+            ### Installation
+            1. Download `ClientExtensions.dll`
+            2. Place it in your WoW 3.3.5a folder (next to `WoW.exe`)
+            3. Patch your WoW.exe using `thorium patch`
+            
+            ### Features
+            - Custom packet communication between addons and server
+            - Based on [TSWoW client-extensions](https://github.com/tswow/tswow)
