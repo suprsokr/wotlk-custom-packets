@@ -16,7 +16,7 @@ We pair down client-extensions to just the custom packets feature and modify the
 
 ## Download
 
-Download the latest `ClientExtensions.dll` from the [Releases](../../releases) page.
+Download the latest `ClientExtensions.dll` from the Releases page.
 
 ## Installation
 
@@ -24,7 +24,7 @@ Place ClientExtensions.dll from Releases next to your 3.3.5 Wow.exe
 
 ## Usage
 
-Expected to be used in a [Thorium](https://github.com/suprsokr/thorium ) or [TSWoW](https://github.com/tswow/tswow) project.
+Expected to be used in a [Mithril](https://github.com/suprsokr/mithril) or [TSWoW](https://github.com/tswow/tswow) project.
 
 ## Building from Source
 
